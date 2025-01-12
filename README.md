@@ -44,7 +44,7 @@ tar -xzf apache-tomcat-9.0.98.tar.gz
 ```
 
 ### Tomcat 実行の準備
-Tomcat の実行のために、以下のコマンドを実行して `JAVA_HOME` を設定します。
+Tomcat の実行のために、以下のコマンドを実行して `JAVA_HOME` と `CATALINA_HOME` を設定します。
 ```
 export JAVA_HOME=<path to jkd1.8.0_421>
 ```
@@ -54,13 +54,119 @@ export JAVA_HOME=<path to jkd1.8.0_421>
 export JAVA_HOME=/home/yu/java-web-sample-app-tomcat/jdk1.8.0_421
 ```
 
+以下は `CATALINA_HOME` の例になります。
+```
+export CATALINA_HOME=/home/yu/java-web-sample-app-tomcat/apache-tomcat-9.0.98
+```
+
 ### Tomcat の実行
 以下のコマンドを実行し、Tomcat を実行してください。`Tomcat started.` とターミナルに出力されていれば正しく実行されています。
 ```
 apache-tomcat-9.0.98/bin/startup.sh
 ```
 
+(任意) Tomcat を停止したい場合は、以下のコマンドを実行してください。
+```
+apache-tomcat-9.0.98/bin/shutdown.sh
+```
+
+(任意) Tomcat をフォアグラウンドで実行してログを出力したい場合
+```
+apache-tomcat-9.0.98/bin/catalina.sh run
+```
+
 Tomcat を実行した後、ブラウザで以下の URL にアクセスすることで Tomcat の初期画面が表示されます。
 ```
 http://localhost:8080/
 ```
+
+## Java Web アプリのビルド
+
+```
+cd <path to java-web-sample-app-tomcat>
+```
+
+```
+jdk1.8.0_421/bin/javac -d java-web-sample-app/build/WEB-INF/classes -classpath "java-web-sample-app/WebContent/WEB-INF/lib/*:apache-tomcat-9.0.98/lib/servlet-api.jar" java-web-sample-app/src/com/example/config/DatabaseConfig.java java-web-sample-app/src/com/example/servlet/*.java java-web-sample-app/src/com/example/model/*.java
+```
+上記 のコマンドを実行した build 済みのファイルは build/WEB-INF/classes/com/example/servlet 配下に保存済みです。
+
+### コマンドの解説
+- -d オプションで出力先ディレクトリを指定
+- -classpath オプションでコンパイル時のクラスパスを指定
+
+## リソースファイルのコピー
+
+```
+cp -r java-web-sample-app/WebContent/* java-web-sample-app/build/
+```
+
+## データベース情報のコピー
+```
+cp java-web-sample-app/src/resources/database.properties java-web-sample-app/build/WEB-INF/classes/
+```
+
+## war ファイルの作成
+
+```
+jdk1.8.0_421/bin/jar cvf java-web-sample-app/java-web-sample-app.war -C java-web-sample-app/build .  
+```
+
+### コマンドの解説
+- jar コマンドは、基本的に ZIP アーカイブを作成するツール
+- WAR ファイルは ZIP 形式であるため、jar コマンドで作成可能
+- c オプションはアーカイブの作成、v オプションは詳細な情報の表示、f オプションは出力ファイル名の指定を意味
+- -C java-web-sample-app/build . の部分で、jar コマンドに対してディレクトリを変更し、その場所からファイルをアーカイブするよう指示
+
+## war ファイルの配置
+```
+cp java-web-sample-app/java-web-sample-app.war apache-tomcat-9.0.98/webapps/
+```
+
+## Tomcat の起動
+略
+
+## アプリケーションへのアクセス
+```
+
+```
+
+## その他
+Tomcat web アプリケーションマネージャの利用
+起動しているアプリケーションを把握することが可能
+Tomcat を起動した後、ブラウザで以下の URL にアクセス
+```
+http://localhost:8080/manager/html
+```
+
+
+## SQLite JDBC ドライバをダウンロード
+以下の MVN Repository から [SQLite JDBC » 3.47.2.0 の jar ファイル](https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.47.2.0/sqlite-jdbc-3.47.2.0.jar) をダウンロードします。このドライバは SQLite を利用するために必要です。
+https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc/3.47.2.0
+
+### ダウンロードした jar ファイルの配置
+```
+cp sqlite-jdbc-3.47.2.0.jar java-web-sample-app/WebContent/WEB-INF/lib/
+```
+
+## Microsoft JDBC ドライバをダウンロード
+以下の Microsoft 公式サイトから [Microsoft JDBC Driver 12.8 for SQL Server (tar.gz) のダウンロード](https://go.microsoft.com/fwlink/?linkid=2283563) をダウンロードします。このドライバは Azure SQL Database を利用するために必要です。
+https://learn.microsoft.com/ja-jp/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server?view=sql-server-ver16
+
+### ファイルの展開
+以下のコマンドを実行して、ダウンロードした JDBC ドライバを展開します。sqljdbc_12.8 ディレクトリに展開済みのディレクトリがあります。
+```
+tar -zxvf sqljdbc_12.8.1.0_jpn.tar.gz
+```
+
+### 展開後の jar ファイルの配置
+Java 8 用の jar ファイルを lib 配下に配置します。
+```
+cp sqljdbc_12.8/jpn/jars/mssql-jdbc-12.8.1.jre8.jar java-web-sample-app/WebContent/WEB-INF/lib/
+```
+
+## データベースの切り替え
+このサンプルアプリでは、SQLite と Azure SQL Database を利用できます。
+java-web-sample-app/src/resources/database.properties の `db.type` を以下のように変更することで切り替えが可能です。
+- SQLite を利用する場合：sqlite
+- Azure SQL Database を利用する場合：azure
