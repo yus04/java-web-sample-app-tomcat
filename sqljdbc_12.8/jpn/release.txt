@@ -1,0 +1,185 @@
+リリース情報
+Microsoft JDBC Driver 12.8 for SQL Server
+
+------------
+概要
+------------
+このファイルには、Microsoft JDBC Driver 12.8 for SQL Server のドキュメントを補完する最新情報やその他の重要な情報 
+が含まれています。JDBC Driver をインストールする前に、このファイルを 
+よくお読みください。
+
+Microsoft はお客様のフィードバックを重要なご提案として受け止め、 
+迅速な対応に努めています。JDBC Driver のブログとオンライン フォーラムを使用して、フィードバックをお送りいただく方法については、
+Microsoft JDBC Driver 12.8 for SQL Server のページ (https://aka.ms/mssql-jdbc-feedback) を参照してください
+
+
+------------
+インストール
+------------
+JDBC Driver のインストール手順は install.txt に記載されています。Windows と Unix オペレーティング システムに JDBC Driver をインストールする場合の詳細については、 
+そのファイルを参照してください。
+
+
+---------------------------
+サポートされるオペレーティング システム
+---------------------------
+Microsoft JDBC Driver 12.8 for SQL Server は、以下のオペレーティング システムでサポートされます。
+  Windows Server 2012
+  Windows Server 2012 R2
+  Windows Server 2016
+  Windows Server 2019
+  Windows Server 2022
+  Windows 8.1
+  Windows 10
+  Windows 11
+  Linux
+  macOS
+
+上記のリストは、サポートされているオペレーティング システムの例の一部です。JDBC Driver は、 
+Java 仮想マシン (JVM) の使用をサポートするすべてのオペレーティング システムで機能するように設計されています。
+
+ただし、互換性とサポートの可否がテストされているのは、Linux と MacOS の最新のオペレーティング システム (Ubuntu 20.04、Ubuntu 18.04、CentOS 7、SUSE 12、
+ macOS 11) のみです。
+
+
+-----------------------
+サポートされる JAVA バージョン
+-----------------------
+Microsoft JDBC Driver 12.8 for SQL Server はテスト済みであり、前述のサポート対象のオペレーティング システム上での Open JDK と Zulu の最新バージョンの Java 
+Development Kit (JDK) ビルドをサポートしています。
+Java Runtime Environment (JRE) システム ライブラリの次のファミリ バージョンをサポートしています。
+
+  ----------------------------------------------------------------------
+  JRE ファミリ バージョン | 最大限のサポートのための JAR ドライバー
+  ----------------------------------------------------------------------
+  8+                 | mssql-jdbc-12.8.1.jre8.jar
+  11+                | mssql-jdbc-12.8.1.jre11.jar
+
+
+----------------
+リリース内容
+----------------
+Microsoft JDBC Driver 12.8 for SQL Server の zip ファイルまたは tar ファイルは、 
+選択したインストール ディレクトリを基準にした特定の場所に次のファイルをアンパックします。
+
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\install.txt
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\release.txt
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\license.txt
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\thirdpartynotices.txt
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\mssql-jdbc-12.8.1.jre8.jar
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\mssql-jdbc-12.8.1.jre11.jar
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\auth\x86\mssql-jdbc_auth-12.8.1.x86.dll
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\auth\x64\mssql-jdbc_auth-12.8.1.x64.dll
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\samples\<サンプル ファイル...>
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\xa\xa_install.sql
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\xa\x86\sqljdbc_xa.dll
+<インストール ディレクトリ>\sqljdbc_<バージョン>\<言語>\xa\x64\sqljdbc_xa.dll
+
+各コンポーネントの詳細については、次のオンライン ドキュメントを参照してください。
+Microsoft JDBC Driver for SQL Server のドキュメント: https://aka.ms/mssql-jdbc
+
+
+-------------
+ドキュメント
+-------------
+このパッケージには、このリリース情報、インストール手順、ライセンス条項が含まれています。
+他のドキュメントはすべてオンラインで提供されます。
+
+オフラインのヘルプ ファイルの提供は、中止されていることに注意してください。
+
+
+---------
+JAR ファイル
+---------
+下位互換性と将来のアップグレード シナリオをサポートするために、JDBC Driver 12.8 では 
+次の 3 つの JAR クラス ライブラリが各インストール パッケージに収録されています。
+	mssql-jdbc-12.8.1.jre8.jar
+	mssql-jdbc-12.8.1.jre11.jar
+
+
+----------------------
+機能に固有のファイル
+----------------------
+Azure Active Directory と統合認証 (Windows 上) のコンポーネントは、 
+'auth' ディレクトリにあります。
+
+JDBC 分散トランザクションのコンポーネントは xa ディレクトリにあります。
+
+
+--------------------
+機能の依存関係
+--------------------
+Microsoft JDBC Driver 12.8 for SQL Server の機能の中には、下記の外部ライブラリに 
+依存するものがあります。
+
+1.Always Encrypted を Azure Key Vault Provider とともに使用する
+   依存するライブラリ: azure keyvault(バージョン 4.5.1)、azure key vault-webkey(バージョン 1.7.0-beta.2)
+
+2.'セキュリティで保護されたエンクレーブが設定された Always Encrypted' を使用する
+   依存するライブラリ: com.google.code.gson (バージョン 2.8.9)、
+   および org.bouncycastle (バージョン 1.70)。org.bouncycastle は JDK 8 の場合にのみ必要です。
+   
+3.'Azure Active Directory 認証' を Windows、Linux、macOS オペレーティング システムで使用する
+   依存ライブラリ: azure-identity(バージョン 1.7.0-beta.2)
+   
+4.'useFmtOnly' を使用してパラメーターのメタデータを取得する
+   依存するライブラリ: antlr-runtime (バージョン 4.9.3)
+   
+標準の Java アプリケーションまたは Maven アプリケーションに含まれるこれらの依存ライブラリに関する詳細情報は、 
+https://go.microsoft.com/fwlink/?linkid=867575 から確認できます。
+
+-------
+SAMPLES
+-------
+JDBC Driver の各種機能を示すサンプル アプリケーションは、
+"sample" ディレクトリに含まれています。各サンプルとその実行方法の詳細については、オンライン  
+ドキュメントを参照してください。
+
+
+-----------
+変更一覧
+-----------
+各リリースで行われた変更、修正、および機能強化の詳細な一覧については、次を参照してください: https://aka.ms/mssql-jdbc-release-notes
+
+------------
+既知のイシュー
+------------
+Microsoft JDBC Driver 12.8 for SQL Server に関する既知の問題には、次のものがあります。
+
+1) SQL Azure との接続の終了
+
+SQL Azure への接続時に非アクティブな状態が一定時間続くと、 
+ファイアウォールなどのネットワーク コンポーネントにより、アイドル接続が終了されることがあります。ネットワーク コンポーネントによりアイドル状態の接続をドロップしないようにするには、
+次のレジストリ設定 (または Windows 以外の同等のもの) を 
+ドライバーが読み込まれるオペレーティング システムに設定する必要があります。
+           
+レジストリ設定                                                                   推奨値
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\KeepAliveTime            30000
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\KeepAliveInterval         1000
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\TcpMaxDataRetransmission  10
+
+2) TVP を sql_variant とともに使用するとき 
+
+2.a) 日付の値
+
+sql_variant 列に格納された datetime/smalldatetime/date の値を含むテーブルの入力で TVP を使用すると、
+ResultSet 上で getDateTime()/getSmallDateTime()/getDate() を呼び出しても機能せず、次の例外がスローされます。
+
+	java.lang.Stringをjava.sql.Timestampにキャストすることはできません
+
+回避策: getString() または getObject() を代わりに使用します。
+
+2.b) TVP を NULL 値の sql_variant とともに使用する
+
+TVP を使用してテーブルを入力し、NULL 値を sql_variant 列の型に送信すると、
+TVP では現在、列の型 sql_variant での NULL 値の挿入がサポートされていないため、例外が発生します。
+
+
+3) NTLM 認証を使用するとき
+
+現在、拡張保護と暗号化された接続を同時に有効化することはできません。
+
+4) useFmtOnly を使用するとき
+
+SQL の解析ロジックの欠陥に起因する、いくつかの機能のイシューがあります。
+詳細と回避策の提案については、https://aka.ms/mssql-jdbc-usefmtonly をご覧ください。
