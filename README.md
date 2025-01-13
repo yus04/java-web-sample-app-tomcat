@@ -8,7 +8,7 @@
 - Tomcat のインストールとパッケージの展開 (以下手順)
 
 ### Java のインストール
-以下の Java SE 8 Archive Downloads のリンクから、「Java SE Development Kit 8u421」の「Linux x64 Compressed Archive」で `jdk-8u421-linux-x64.tar.gz` をダウンロードしてください。
+以下の Java SE 8 Archive Downloads のリンクから、「Java SE Development Kit 8u421」の「Linux x64 Compressed Archive」で `jdk-8u421-linux-x64.tar.gz` をダウンロードしてください。(downloaded 配下にあります。)
 https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html
 
 ### Java パッケージの展開
@@ -33,7 +33,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.421-b09, mixed mode)
 ```
 
 ### Tomcat のインストール
-以下の Apache Tomcat のリンクから、9.0.98 (バージョン) > Binary Distributions > Core > tar.gz 形式のパッケージをインストールして下さい。
+以下の Apache Tomcat のリンクから、9.0.98 > Binary Distributions > Core > tar.gz 形式のパッケージをインストールして下さい。(downloaded 配下にあります。)
 https://tomcat.apache.org/download-90.cgi
 
 ### Tomcat パッケージの展開
@@ -170,3 +170,42 @@ cp sqljdbc_12.8/jpn/jars/mssql-jdbc-12.8.1.jre8.jar java-web-sample-app/WebConte
 java-web-sample-app/src/resources/database.properties の `db.type` を以下のように変更することで切り替えが可能です。
 - SQLite を利用する場合：sqlite
 - Azure SQL Database を利用する場合：azure
+
+## その他
+- JavaFX の WebView コンポーネントでウェブコンテンツを表示するためのネイティブライブラリである、libjfxwebkit.so は 100 MB を超える巨大ファイルであるが、JSP/サーブレットを使用した Web アプリケーションには直接関係がないため、jdk1.8.0_421/jre/lib/amd64 配下から削除しました。また、downloded/jdk-8u421-linux-x64.tar のファイルも libjfxwebkit.so を削除して軽量化しています。
+
+## Azure SQL Database への接続
+### Azure SQL Database の作成
+Azure ポータルから、Azure SQL Database を作成します。
+
+java-web-sample-app/src/resources/database.properties 内の Azure SQL Database 用設定を変更
+
+「SQL 認証を使用する」を選択。
+
+また、ネットワークはパブリックネットワークアクセスを許可し、自身のクライアント IPv4 アドレスをファイアーウォール規則に登録してください。
+
+### database.properties ファイルの変更
+#### azure.jdbc.url の変更
+Azure ポータルで、作成済みの Azure SQL Database の画面を開き、設定 > 接続文字列 > JDBC > JDBC (SQL 認証) から接続文字列をコピーし、`{your_password_here}` を設定済みパスワードに変更して database.properties ファイルを設定
+
+#### azure.jdbc.driver
+com.microsoft.sqlserver.jdbc.SQLServerDriver
+が登録済みドライバーです。
+
+https://learn.microsoft.com/ja-jp/sql/connect/jdbc/using-the-jdbc-driver?view=sql-server-ver16
+
+#### azure.db.user
+以下の形式で設定
+azure.db.user=<your-username>@<your-server-name>
+
+<your-username> には、
+Azure SQL Database 作成時に入力したサーバー管理者ログインを設定。
+
+<your-server-name> には、
+Azure SQL Database 作成時入力したサーバー名を設定。
+
+サーバー名は以下の形式となっていますが、そのうちの <your-server-name> をサーバー名として使用します。
+<your-server-name>.database.windows.net
+
+#### azure.db.pass
+Azure SQL Database 作成時に入力したパスワードを設定。
