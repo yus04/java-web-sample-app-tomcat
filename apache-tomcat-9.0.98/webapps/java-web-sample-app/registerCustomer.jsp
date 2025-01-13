@@ -3,7 +3,7 @@
 <html>  
 <head>  
     <title>顧客登録</title>  
-    <link rel="stylesheet" type="text/css" href="css/styles.css">  
+    <link rel="stylesheet" type="text/css" href="css/style.css">  
 </head>  
 <body>  
     <div class="header">  
