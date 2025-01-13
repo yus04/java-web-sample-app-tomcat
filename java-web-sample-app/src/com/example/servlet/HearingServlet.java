@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.sql.Connection;  
 import java.sql.DriverManager;  
 import java.sql.PreparedStatement;  
+import java.time.LocalDateTime;  
+import java.time.ZoneId;  
+import java.time.temporal.ChronoUnit;  
+import java.time.format.DateTimeFormatter;  
   
 import com.example.config.DatabaseConfig;  
   
@@ -42,15 +46,27 @@ public class HearingServlet extends HttpServlet {
             } else {    
                 conn = DriverManager.getConnection(dbConfig.getJdbcUrl(), dbConfig.getDbUser(), dbConfig.getDbPass());    
             }    
+
+            String sql = "INSERT INTO hearings (customer_id, content, date) VALUES (?, ?, ?)";  
   
-            String sql = "INSERT INTO hearings (customer_id, content, date) VALUES (?, ?, datetime('now'))";    
-            PreparedStatement pstmt = conn.prepareStatement(sql);    
-            pstmt.setInt(1, customerId);    
-            pstmt.setString(2, hearingContent);    
-            pstmt.executeUpdate();    
-  
-            pstmt.close();    
-            conn.close();    
+            PreparedStatement pstmt = conn.prepareStatement(sql);  
+            pstmt.setInt(1, customerId);  
+            pstmt.setString(2, hearingContent);  
+            
+            // 日本時間で現在の日時を取得し、秒とナノ秒を切り捨てる  
+            LocalDateTime nowJST = LocalDateTime.now(ZoneId.of("Asia/Tokyo")).truncatedTo(ChronoUnit.MINUTES);  
+            
+            // 日時をフォーマットして文字列に変換  
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");  
+            String formattedDateTime = nowJST.format(formatter);  
+            
+            // フォーマットした日時文字列をセット  
+            pstmt.setString(3, formattedDateTime);  
+            
+            pstmt.executeUpdate();  
+            pstmt.close();  
+            conn.close();  
+ 
         } catch (Exception e) {    
             e.printStackTrace();    
         }    
