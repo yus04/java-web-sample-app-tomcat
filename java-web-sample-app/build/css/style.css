@@ -1,0 +1,45 @@
+body {  
+    font-family: "MS UI Gothic", sans-serif;  
+    background-color: #e0e0e0;  
+    margin: 0;  
+    padding: 0;  
+}  
+  
+.header {  
+    background-color: #0066cc;  
+    color: #ffffff;  
+    padding: 10px;  
+    text-align: center;  
+    border-bottom: 2px solid #003366;  
+}  
+  
+.menu {  
+    margin: 20px;  
+    padding: 20px;  
+    background-color: #f0f8ff;  
+    border: 1px solid #dcdcdc;  
+}  
+  
+.menu ul {  
+    list-style-type: none;  
+    padding: 0;  
+}  
+  
+.menu ul li {  
+    margin: 10px 0;  
+}  
+  
+.menu ul li a {  
+    text-decoration: none;  
+    color: #0000ff;  
+    font-weight: bold;  
+    font-size: 14px;  
+}  
+  
+.menu ul li a:hover {  
+    text-decoration: underline;  
+}  
+  
+.menu ul li a:visited {  
+    color: #551a8b;  
+}
