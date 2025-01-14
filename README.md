@@ -33,7 +33,12 @@ downloaded ディレクトリ配下に上記のランタイムやドライバー
 ```
 
 ### Apache Tomcat の起動
-以下のコマンドを実行し、Tomcat を実行してください。`Tomcat started.` とターミナルに出力されていれば正しく実行されています。
+Apache Tomcat を実行するために、まずは以下のコマンドで環境変数を設定して下さい。
+```
+export JAVA_HOME=$HOME/java-web-sample-app-tomcat/jdk1.8.0_421  
+```
+
+次に以下のコマンドを実行し、Tomcat を実行してください。`Tomcat started.` とターミナルに出力されていれば正しく実行されています。
 ```
 apache-tomcat-9.0.98/bin/startup.sh
 ```

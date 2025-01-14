@@ -74,3 +74,12 @@ sudo systemctl start ssh
 ```
 sudo passwd root
 ```
+
+## 利用するデータベースへの切り替え
+本リポジトリのコードはあくまでサンプルです。sqlite の利用を設定した状態で Azure Migrate を使ったデプロイを行った場合、sqlite のデータベースファイルアクセス時に Permission Error が出ることを確認しています。Azure Migrate を使ったデプロイをする際、database.properties で `db.type=azure` を設定して Azure Database SQL を利用するように切り替えてください。
+
+## Azure SQL Database への接続設定
+Azure にデプロイしたアプリケーションが Azure SQL Database へ接続できるように、Azure ポータルの SQL Server のネットワーク設定から「Azure サービスおよびリソースにこのサーバーへのアクセスを許可する」を有効化して下さい。
+
+## Azure Migrate ツールの利用
+省略
