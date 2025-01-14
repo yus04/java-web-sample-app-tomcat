@@ -4,8 +4,15 @@
 export JAVA_HOME=$HOME/java-web-sample-app-tomcat/jdk1.8.0_421  
 export CATALINA_HOME=$HOME/java-web-sample-app-tomcat/apache-tomcat-9.0.98   
   
-# Java ソースコードのコンパイル  
-$JAVA_HOME/bin/javac -d java-web-sample-app/build/WEB-INF/classes -classpath "java-web-sample-app/WebContent/WEB-INF/lib/*:$CATALINA_HOME/lib/servlet-api.jar" java-web-sample-app/src/com/example/*
+# ディレクトリとクラスパスを設定  
+export BUILD_DIR="java-web-sample-app/build"  
+export WEB_INF_DIR="$BUILD_DIR/WEB-INF"  
+export SRC_DIR="java-web-sample-app/src"  
+export EXAMPLE_SRC_DIR="$SRC_DIR/com/example"  
+export CLASSPATH="$WEB_INF_DIR/lib/*:apache-tomcat-9.0.98/lib/servlet-api.jar"  
+  
+# Java コードのコンパイル
+jdk1.8.0_421/bin/javac -d $WEB_INF_DIR/classes -classpath $CLASSPATH $EXAMPLE_SRC_DIR/config/DatabaseConfig.java $EXAMPLE_SRC_DIR/servlet/*.java $EXAMPLE_SRC_DIR/model/*.java  
 
 # WebContent ディレクトリの内容を build ディレクトリにコピー  
 cp -r java-web-sample-app/WebContent/* java-web-sample-app/build/  
